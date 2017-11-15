@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <!--扫描该目录下的包,把写有注解的类注册为 bean-->
     <context:component-scan base-package="cn.entity"/>
@@ -12,7 +12,7 @@
         <property name="location" value="classpath:jdbc.properties"/>
     </bean>
 
-    <!--配置数据源-->
+    <!--1.配置数据源-->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
         <property name="driverClassName" value="${jdbc.driver}"></property>
         <property name="url" value="${jdbc.url}"></property>
@@ -30,13 +30,21 @@
         <property name="maxWait" value="${maxWait}"/>
     </bean>
 
-    <!--引用数据源，获取sqlSessionFactory-->
+    <!--2.配置mybatis的SqlSession的工厂: SqlSessionFactoryBean dataSource:引用数据源 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <!--自动扫描mybatis映射文件和接口的包-->
+    <!-- 3. 自动扫描mybatis映射文件和接口的包 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 
     </bean>
+
+    <!--4.配置事务管理器  -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+    <!--5.开启注解进行事务管理   transaction-manager：引用上面定义的事务管理器-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 </beans>
