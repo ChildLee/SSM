@@ -6,13 +6,13 @@
 
     <!--Spring核心监听器  -->
     <!--在服务器启动时加载Spring容器，且只会加载一次  -->
-    <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>classpath:applicationContext.xml</param-value>
     </context-param>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
 
     <!--配置Spring-mvc核心控制器  -->
     <servlet>
