@@ -6,7 +6,7 @@
 
     <!--开启Springioc 自动扫描注解包  -->
     <!--<context:component-scan base-package="cn.controller"/>-->
-    <context:component-scan base-package="cn.service"/>
+    <context:component-scan base-package="cn.controller,cn.service,cn.mapper"/>
 
     <!--获取配置文件-->
     <context:property-placeholder location="classpath:jdbc.properties"/>
