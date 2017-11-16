@@ -4,6 +4,6 @@ import cn.entity.Admin;
 
 public interface AdminMapper {
 
-    Admin getAdminAll();
+    public Admin getAdminAll();
 
 }

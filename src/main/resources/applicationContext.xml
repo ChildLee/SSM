@@ -4,10 +4,9 @@
        xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <!--开启注解-->
-    <context:annotation-config/>
     <!--开启Springioc 自动扫描注解包  -->
-    <context:component-scan base-package="cn"/>
+    <!--<context:component-scan base-package="cn.controller"/>-->
+    <context:component-scan base-package="cn.service"/>
 
     <!--获取配置文件-->
     <context:property-placeholder location="classpath:jdbc.properties"/>
@@ -19,7 +18,7 @@
         <property name="username" value="${jdbc.username}"></property>
         <property name="password" value="${jdbc.password}"></property>
         <!--连接参数-->
-        <!--<property name="connectionProperties" value="${connectionProperties}"/>-->
+        <property name="connectionProperties" value="${connectionProperties}"/>
         <!-- 初始化连接大小 -->
         <property name="initialSize" value="${initialSize}"/>
         <!-- 连接池最小空闲 -->
