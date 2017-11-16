@@ -15,7 +15,6 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
-
     @ResponseBody
     @RequestMapping("/admin")
     public String getAdminAll(String sa) {
