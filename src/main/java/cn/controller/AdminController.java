@@ -15,7 +15,9 @@ public class AdminController {
 
     @RequestMapping("/admin")
     public ModelAndView getAdminAll() {
-        System.out.println("66667");
-        return null;
+        System.out.println("666");
+        ModelAndView mav = new ModelAndView("add");
+        mav.addObject("message", "Hello Spring MVC");
+        return mav;
     }
 }
