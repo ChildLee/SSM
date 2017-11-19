@@ -18,6 +18,9 @@
         .img {
             height: 100px;
             width: 100px;
+        }
+
+        .img_box {
             display: inline-block;
         }
     </style>
@@ -110,10 +113,8 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">商品图片:</label>
             <div class="col-sm-8">
-                <div id="img_box"></div>
-                <div id="uploadDiv" class="fileInputContainer">
-                </div>
-                <div id="fileDiv" style="display: none"></div>
+                <div id="img_container"></div>
+                <div id="uploadDiv" class="fileInputContainer"></div>
             </div>
         </div>
         <div class="form-group">
@@ -137,22 +138,25 @@
 <script type="text/javascript">
     $(function () {
         $("#uploadDiv").on("click", function () {
-            var uploadFile = '<input name="files" id="uploaderInput" type="file" accept="image/*" multiple/>';
+            $("#uploaderInput").parent().remove();
+            var uploadFile = '<div class="img_box">' +
+                '<input name="files" id="uploaderInput" type="file" accept="image/*" multiple/>' +
+                '</div>';
 
-            $("#fileDiv").append($(uploadFile));
+            $("#img_container").append($(uploadFile));
             $("#uploaderInput").on("change", function (e) {
-                var objUrl = getObjectURL(this.files[0]);
-                var img = '<img class="img" src=' + objUrl + ' />';
 
-                var objUrl = getObjectURL(this.files[0]);
+                for (var i = 0; i < this.files.length; i++) {
+                    var objUrl = getObjectURL(this.files[i]);
+                    var img = '<img class="img" src=' + objUrl + ' />';
+                    $(this).parent().append($(img));
+                }
 
-                $("#img_box").append($(img));
                 $(this).removeAttr("id");
             });
             $("#uploaderInput").click();
 
-            $(".img").on("click", function () {
-                console.log();
+            $(".img_box").on("click", function () {
                 this.remove();
             });
         });
