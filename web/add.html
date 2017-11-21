@@ -133,6 +133,32 @@
     </form>
 </div>
 
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    提示
+                </h4>
+            </div>
+            <div class="modal-body">
+                是否删除该(组)图片?<br/>
+                (提示:一次选择多张图片,删除时会同时删除)
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消
+                </button>
+                <button id="clearImg" type="button" class="btn btn-primary">
+                    确定
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript">
@@ -140,28 +166,30 @@
         $("#uploadDiv").on("click", function () {
             $("#uploaderInput").parent().remove();
             var uploadFile = '<div class="img_box">' +
-                '<input name="files" id="uploaderInput" type="file" accept="image/*" multiple/>' +
+                '<input style="display: none" name="files" id="uploaderInput" type="file" accept="image/*" multiple/>' +
                 '</div>';
 
             $("#img_container").append($(uploadFile));
             $("#uploaderInput").on("change", function (e) {
-
                 for (var i = 0; i < this.files.length; i++) {
                     var objUrl = getObjectURL(this.files[i]);
-                    var img = '<img class="img" src=' + objUrl + ' />';
+                    var img = '<img class="img" data-target="#myModal" src=' + objUrl + ' />';
                     $(this).parent().append($(img));
                 }
-
                 $(this).removeAttr("id");
             });
             $("#uploaderInput").click();
 
             $(".img_box").on("click", function () {
-                this.remove();
+                var that = this;
+                $('#myModal').modal('show');
+                $('#clearImg').on("click", function () {
+                    $('#myModal').modal('hide')
+                    that.remove();
+                });
+//                this.remove();
             });
         });
-
-
     });
 
     //获取图片路劲的方法，兼容多种浏览器，通过createObjectURL实现
