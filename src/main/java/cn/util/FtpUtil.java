@@ -3,7 +3,6 @@ package cn.util;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -19,17 +18,17 @@ public class FtpUtil {
     private static final String username = resourceBundle.getString("ftp.username");
     private static final String password = resourceBundle.getString("ftp.password");
     private static final String path = resourceBundle.getString("ftp.path");
+    //ftp实例
+    private static FTPClient ftpClient;
 
     /**
-     * 文件上传
+     * 建立ftp连接
      *
-     * @param fis 文件流
-     * @return 返回boolean结果，判断是否上传成功
+     * @return 是否连接成功
      */
-    public static boolean ftpUpload(FileInputStream fis) {
-        boolean success = false;
+    private static boolean ftpConnect() {
         //实例化一个ftp客户端
-        FTPClient ftpClient = new FTPClient();
+        ftpClient = new FTPClient();
         try {
             //建立ftp连接
             ftpClient.connect(url, port);
@@ -46,11 +45,32 @@ public class FtpUtil {
                 //连接失败时断开连接
                 ftpClient.disconnect();
                 //返回false
-                return success;
+                return false;
             }
-            //设置上传目录
-            Boolean isDirectory = ftpClient.changeWorkingDirectory(path);
-            if (!isDirectory) {
+            //设置ftp连接目录
+            if (!DirectoryExist()) {
+                return false;
+            }
+            //设置文件编码格式
+            //ftpClient.setControlEncoding("GBK");
+            //设置文件类型（二进制）
+            ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    /**
+     * 设置ftp连接目录
+     *
+     * @return 目录是否连接成功
+     */
+    private static Boolean DirectoryExist() {
+        Boolean DirectoryExist = null;
+        try {
+            DirectoryExist = ftpClient.changeWorkingDirectory(path);
+            if (!DirectoryExist) {
                 //如果目录不存在创建目录
                 String[] dirs = path.split("/");
                 String Path = "";
@@ -61,54 +81,90 @@ public class FtpUtil {
                     if (!ftpClient.changeWorkingDirectory(Path)) {
                         //目录不存在则创建目录,创建失败则方法结束
                         if (!ftpClient.makeDirectory(Path)) {
-                            //退出登录
-                            ftpClient.logout();
-                            //判断是否还连接
-                            if (ftpClient.isConnected()) {
-                                //关闭ftp连接
-                                ftpClient.disconnect();
-                            }
-                            return success;
+                            return false;
                         }
                     }
                 }
                 //目录创建成功,切换到该目录
                 ftpClient.changeWorkingDirectory(Path);
             }
-            //设置文件编码格式
-            ftpClient.setControlEncoding("GBK");
-            //设置文件类型（二进制）
-            ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
 
-            //获取系统当前时间
-            SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-            String date = df.format(new Date());
-            //随机字符串生成,当前时间+随机字符串=文件名
-            String fileName = date + RandomStringGenerator.getRandomStringByLength(18);
+    /**
+     * 退出并关闭FTP连接
+     */
+    private static void closeConnect() {
+        //判断是否还连接
+        if (ftpClient.isConnected()) {
+            try {
+                //退出登录
+                ftpClient.logout();
+                //关闭ftp连接
+                ftpClient.disconnect();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-            //上传文件流
-            ftpClient.storeFile(fileName + ".jpg", fis);
-
+    /**
+     * ftp文件上传
+     *
+     * @param fis 上传的文件
+     * @return 是否上传成功
+     */
+    public static boolean ftpUpload(FileInputStream fis) {
+        Boolean success = ftpConnect();
+        if (!success) {
+            return false;
+        }
+        //获取系统当前时间
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+        String date = df.format(new Date());
+        //随机字符串生成,当前时间+随机字符串=文件名
+        String fileName = date + RandomStringGenerator.getRandomStringByLength(18);
+        try {
+            //上传文件
+            success = ftpClient.storeFile(fileName + ".jpg", fis);
             //关闭流
             fis.close();
-            //退出登录
-            ftpClient.logout();
-            //文件上传结束,返回结果设置为true
-            success = true;
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            //判断是否还连接
-            if (ftpClient.isConnected()) {
-                try {
-                    //关闭ftp连接
-                    ftpClient.disconnect();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            //关闭连接
+            closeConnect();
         }
-        //返回true
         return success;
     }
+
+    /**
+     * ftp文件删除
+     *
+     * @param fileName 删除的文件名
+     * @return 是否删除成功
+     */
+    public static boolean ftpDelete(String fileName) {
+        if (fileName == null || "".equals(fileName)) {
+            return false;
+        }
+        Boolean success = ftpConnect();
+        if (!success) {
+            return false;
+        }
+        try {
+            //删除文件
+            success = ftpClient.deleteFile(new String(fileName.getBytes("GBK"), "ISO-8859-1"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            //关闭连接
+            closeConnect();
+        }
+        return success;
+    }
+
 }

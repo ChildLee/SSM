@@ -13,7 +13,8 @@ public class FTP {
     public void getId() throws Exception {
         File file = new File("D:\\w.jpg");
         FileInputStream fis = new FileInputStream(file);
-        boolean isFtp = FtpUtil.ftpUpload(fis);
+        //boolean isFtp = FtpUtil.ftpUpload(fis);
+        boolean isFtp = FtpUtil.ftpDelete("我的.jpg");
         if (isFtp) {
             System.out.println("上传成功");
         }
