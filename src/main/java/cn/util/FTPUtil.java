@@ -60,10 +60,7 @@ public class FTPUtil {
                     //判断目录存在为false,并切换为该目录
                     if (!ftpClient.changeWorkingDirectory(Path)) {
                         //目录不存在则创建目录,创建失败则方法结束
-                        if (ftpClient.makeDirectory(Path)) {
-                            //目录创建成功,切换到该目录
-                            ftpClient.changeWorkingDirectory(Path);
-                        } else {
+                        if (!ftpClient.makeDirectory(Path)) {
                             //退出登录
                             ftpClient.logout();
                             //判断是否还连接
@@ -75,7 +72,8 @@ public class FTPUtil {
                         }
                     }
                 }
-                System.out.println(Path);
+                //目录创建成功,切换到该目录
+                ftpClient.changeWorkingDirectory(Path);
             }
             //设置文件编码格式
             ftpClient.setControlEncoding("GBK");
@@ -85,7 +83,7 @@ public class FTPUtil {
             //获取系统当前时间
             SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
             String date = df.format(new Date());
-            //随机字符串还没生成,时间+随机字符串=文件名
+            //随机字符串生成,当前时间+随机字符串=文件名
             String fileName = date + RandomStringGenerator.getRandomStringByLength(18);
 
             //上传文件流
