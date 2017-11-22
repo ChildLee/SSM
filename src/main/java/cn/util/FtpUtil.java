@@ -26,7 +26,7 @@ public class FtpUtil {
      *
      * @return 是否连接成功
      */
-    private static boolean ftpConnect() {
+    public static boolean ftpConnect() {
         //实例化一个ftp客户端
         ftpClient = new FTPClient();
         try {
@@ -97,7 +97,7 @@ public class FtpUtil {
     /**
      * 退出并关闭FTP连接
      */
-    private static void closeConnect() {
+    public static void closeConnect() {
         //判断是否还连接
         if (ftpClient.isConnected()) {
             try {
@@ -114,29 +114,28 @@ public class FtpUtil {
     /**
      * ftp文件上传
      *
-     * @param fis 上传的文件
+     * @param fileName 上传的文件名
+     * @param fis      上传的文件
      * @return 是否上传成功
      */
-    public static boolean ftpUpload(FileInputStream fis) {
-        Boolean success = ftpConnect();
-        if (!success) {
-            return false;
-        }
-        //获取系统当前时间
-        SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-        String date = df.format(new Date());
-        //随机字符串生成,当前时间+随机字符串=文件名
-        String fileName = date + RandomStringGenerator.getRandomStringByLength(18);
+    public static boolean ftpUpload(String fileName, FileInputStream fis) {
+        return ftpUpload(fis, fileName);
+    }
+
+    /**
+     * ftp文件上传
+     *
+     * @param fis      上传的文件
+     * @param fileName 上传的文件名
+     * @return 是否上传成功
+     */
+    public static boolean ftpUpload(FileInputStream fis, String fileName) {
+        Boolean success = false;
         try {
             //上传文件
-            success = ftpClient.storeFile(fileName + ".jpg", fis);
-            //关闭流
-            fis.close();
+            success = ftpClient.storeFile(fileName, fis);
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            //关闭连接
-            closeConnect();
         }
         return success;
     }
@@ -151,18 +150,12 @@ public class FtpUtil {
         if (fileName == null || "".equals(fileName)) {
             return false;
         }
-        Boolean success = ftpConnect();
-        if (!success) {
-            return false;
-        }
+        Boolean success = false;
         try {
             //删除文件
             success = ftpClient.deleteFile(new String(fileName.getBytes("GBK"), "ISO-8859-1"));
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            //关闭连接
-            closeConnect();
         }
         return success;
     }
