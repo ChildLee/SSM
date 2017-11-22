@@ -148,9 +148,9 @@ public class FtpUtil {
         if (fileName == null || "".equals(fileName)) {
             return false;
         }
-        Boolean success = false;
+        boolean success = false;
+        //删除文件
         try {
-            //删除文件
             success = ftpClient.deleteFile(new String(fileName.getBytes("GBK"), "ISO-8859-1"));
         } catch (IOException e) {
             e.printStackTrace();

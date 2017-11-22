@@ -24,7 +24,7 @@ public class FTP {
             File file = new File("D:\\w.jpg");
             FileInputStream fis = new FileInputStream(file);
             boolean isFtp = FtpUtil.ftpUpload(fis, fileName + ".jpg");
-            boolean isFtpa = FtpUtil.ftpDelete(fileName + ".jpg");
+            FtpUtil.ftpDelete(fileName + ".jpg");
             if (isFtp) {
                 System.out.println("上传成功" + i);
             }
@@ -33,5 +33,8 @@ public class FTP {
         FtpUtil.closeConnect();
     }
 
-
+    @Test
+    public void a() {
+        System.out.println(FtpUtil.ftpDelete(""));
+    }
 }
