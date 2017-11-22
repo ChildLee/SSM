@@ -1,6 +1,6 @@
 package cn.entity;
 
-import cn.util.FTPUtil;
+import cn.util.FtpUtil;
 import org.junit.Test;
 
 import java.io.File;
@@ -13,7 +13,7 @@ public class FTP {
     public void getId() throws Exception {
         File file = new File("D:\\w.jpg");
         FileInputStream fis = new FileInputStream(file);
-        boolean isFtp = FTPUtil.ftpUpload(fis);
+        boolean isFtp = FtpUtil.ftpUpload(fis);
         if (isFtp) {
             System.out.println("上传成功");
         }

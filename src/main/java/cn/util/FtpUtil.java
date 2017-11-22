@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-public class FTPUtil {
+public class FtpUtil {
     //读取配置文件
     private static final ResourceBundle resourceBundle = ResourceBundle.getBundle("ftp");
     //读取配置信息
