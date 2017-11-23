@@ -5,6 +5,7 @@ import org.apache.commons.net.ftp.FTPReply;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ResourceBundle;
 
 public class FtpUtil {
@@ -113,25 +114,25 @@ public class FtpUtil {
      * ftp文件上传
      *
      * @param fileName 上传的文件名
-     * @param fis      上传的文件
+     * @param is       上传的文件
      * @return 是否上传成功
      */
-    public static boolean ftpUpload(String fileName, FileInputStream fis) {
-        return ftpUpload(fis, fileName);
+    public static boolean ftpUpload(String fileName, InputStream is) {
+        return ftpUpload(is, fileName);
     }
 
     /**
      * ftp文件上传
      *
-     * @param fis      上传的文件
+     * @param is       上传的文件
      * @param fileName 上传的文件名
      * @return 是否上传成功
      */
-    public static boolean ftpUpload(FileInputStream fis, String fileName) {
+    public static boolean ftpUpload(InputStream is, String fileName) {
         Boolean success = false;
         try {
             //上传文件
-            success = ftpClient.storeFile(fileName, fis);
+            success = ftpClient.storeFile(fileName, is);
         } catch (IOException e) {
             e.printStackTrace();
         }
