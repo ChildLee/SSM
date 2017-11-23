@@ -31,7 +31,7 @@ public class AdminController {
     }
 
     @RequestMapping("/fileUpload")
-    public void getImg(@RequestParam("files") MultipartFile[] files) {
+    public void getfileUpload(@RequestParam("files") MultipartFile[] files) {
         try {
             FtpUtil.ftpConnect();
             InputStream is = null;
@@ -42,8 +42,9 @@ public class AdminController {
                 String suffix = fileName.substring(fileName.lastIndexOf("."));
                 //随机字符串生成,当前时间+随机字符串=文件名
                 fileName = getNoFormatTime() + getRandomNumber(5) + suffix;
-
+                //将图片转成流
                 is = files[i].getInputStream();
+                //上传图片
                 FtpUtil.ftpUpload(is, fileName);
             }
             is.close();
