@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Configuration status="WARN" strict="true" xmlns="http://logging.apache.org/log4j/2.0/config">
+    <Properties>
+        <Property name="fileName">target/fileLog.log</Property>
+    </Properties>
+
+    <Appenders>
+        <Appender type="file" name="file" fileName="${fileName}">
+            <Layout type="PatternLayout" pattern="[%d{yyyy-MM-dd HH:mm} %l(%-5level)]=>%m %n"/>
+        </Appender>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm} %C.%M:%L]=>%msg %n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <!--自定义级别-->
+        <Logger name="log" level="info" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <!--根级别-->
+        <Root level="error">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>

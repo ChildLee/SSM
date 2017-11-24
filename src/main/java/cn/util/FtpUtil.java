@@ -2,6 +2,8 @@ package cn.util;
 
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +20,7 @@ public class FtpUtil {
     private static final String path = resourceBundle.getString("ftp.path");
     //ftp实例
     private static FTPClient ftpClient;
+    private static Logger logger = LogManager.getLogger("log");
 
     /**
      * 建立ftp连接
@@ -25,6 +28,7 @@ public class FtpUtil {
      * @return 是否连接成功
      */
     public static boolean ftpConnect() {
+        logger.info("FTP开始连接");
         //实例化一个ftp客户端
         ftpClient = new FTPClient();
         try {
@@ -40,6 +44,7 @@ public class FtpUtil {
             int reply = ftpClient.getReplyCode();
             //判断是否连接成功
             if (!FTPReply.isPositiveCompletion(reply)) {
+                logger.info("FTP连接失败");
                 //连接失败时断开连接
                 ftpClient.disconnect();
                 //返回false
@@ -54,8 +59,10 @@ public class FtpUtil {
             //设置文件类型（二进制）
             ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
         } catch (IOException e) {
+            logger.error("连接错误");
             e.printStackTrace();
         }
+        logger.info("FTP连接成功");
         return true;
     }
 
@@ -96,16 +103,16 @@ public class FtpUtil {
      * 退出并关闭FTP连接
      */
     public static void closeConnect() {
-        //判断是否还连接
-        if (ftpClient.isConnected()) {
-            try {
+        try {
+            //判断是否还连接
+            if (ftpClient.isConnected()) {
                 //退出登录
                 ftpClient.logout();
                 //关闭ftp连接
                 ftpClient.disconnect();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
