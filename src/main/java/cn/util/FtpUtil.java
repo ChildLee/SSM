@@ -20,6 +20,7 @@ public class FtpUtil {
     private static final String path = resourceBundle.getString("ftp.path");
     //ftp实例
     private static FTPClient ftpClient;
+    //log4j
     private static Logger logger = LogManager.getLogger("log");
 
     /**
@@ -28,7 +29,6 @@ public class FtpUtil {
      * @return 是否连接成功
      */
     public static boolean ftpConnect() {
-        logger.info("FTP开始连接");
         //实例化一个ftp客户端
         ftpClient = new FTPClient();
         try {
@@ -62,7 +62,6 @@ public class FtpUtil {
             logger.error("ftp连接错误");
             e.printStackTrace();
         }
-        logger.info("FTP连接成功");
         return true;
     }
 

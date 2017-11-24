@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Configuration status="WARN" strict="true" xmlns="http://logging.apache.org/log4j/2.0/config">
     <Properties>
-        <Property name="fileName">target/fileLog.log</Property>
+        <Property name="fileName">log/${date:yyyy-MM-dd}.log</Property>
     </Properties>
 
     <Appenders>
         <Appender type="file" name="file" fileName="${fileName}">
-            <Layout type="PatternLayout" pattern="[%d{yyyy-MM-dd HH:mm} %l(%-5level)]=>%m %n"/>
+            <Layout type="PatternLayout" pattern="[%-5level] [%d{yyyy-MM-dd HH:mm}]=>%msg %n"/>
         </Appender>
+
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm} %C.%M:%L]=>%msg %n"/>
+            <PatternLayout pattern="[%-5level] [%d{yyyy-MM-dd HH:mm} (%-5level) %C.%M:%L]=>%msg %n"/>
         </Console>
     </Appenders>
     <Loggers>
         <!--自定义级别-->
         <Logger name="log" level="info" additivity="false">
-            <AppenderRef ref="Console"/>
+            <AppenderRef ref="file"/>
         </Logger>
 
         <!--根级别-->
-        <Root level="error">
+        <Root level="WARN">
             <AppenderRef ref="Console"/>
         </Root>
     </Loggers>
