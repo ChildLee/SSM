@@ -59,7 +59,7 @@ public class FtpUtil {
             //设置文件类型（二进制）
             ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
         } catch (IOException e) {
-            logger.error("连接错误");
+            logger.error("ftp连接错误");
             e.printStackTrace();
         }
         logger.info("FTP连接成功");
@@ -105,7 +105,7 @@ public class FtpUtil {
     public static void closeConnect() {
         try {
             //判断是否还连接
-            if (ftpClient.isConnected()) {
+            if (ftpClient != null && ftpClient.isConnected()) {
                 //退出登录
                 ftpClient.logout();
                 //关闭ftp连接

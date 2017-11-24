@@ -7,7 +7,7 @@ import org.junit.Test;
 public class Detection {
     @Test
     public void ftpTest() {
-        FtpUtil.ftpConnect();
+        FtpUtil.closeConnect();
     }
 
     @Test
