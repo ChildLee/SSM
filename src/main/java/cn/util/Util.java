@@ -26,7 +26,7 @@ public class Util {
         try {
             bufferedImage = ImageIO.read(is);
             //等比压缩倍数
-            double scale = 0.8;
+            double scale = 1;
             //获取图片宽度
             int width = bufferedImage.getWidth();
             //获取图片高度
