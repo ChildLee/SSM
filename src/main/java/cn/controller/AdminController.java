@@ -16,6 +16,7 @@ import java.io.InputStream;
 
 import static cn.util.RandomStringGenerator.getNoFormatTime;
 import static cn.util.RandomStringGenerator.getRandomNumber;
+import static cn.util.Util.ImgCompression;
 
 @Controller
 public class AdminController {
@@ -33,21 +34,28 @@ public class AdminController {
     @RequestMapping("/fileUpload")
     public void getfileUpload(@RequestParam("files") MultipartFile[] files) {
         try {
-            FtpUtil.ftpConnect();
+            //连接FTP
+            if (!FtpUtil.ftpConnect()) return;
             InputStream is = null;
             for (int i = 0; i < files.length; i++) {
+                //获取上传的文件名
                 String fileName = files[i].getOriginalFilename();
+                //判断上传的文件是否为空
                 if (fileName == null || "".equals(fileName)) continue;
-                //获取后缀
+                //获取文件后缀
                 String suffix = fileName.substring(fileName.lastIndexOf("."));
                 //随机字符串生成,当前时间+随机字符串=文件名
-                fileName = getNoFormatTime() + getRandomNumber(5) + suffix;
-                //将图片转成流
+                fileName = getNoFormatTime() + getRandomNumber(8) + suffix;
+                //将文件转成流
                 is = files[i].getInputStream();
+                //图片压缩
+                is = ImgCompression(is, suffix.substring(1));
                 //上传图片
                 FtpUtil.ftpUpload(is, fileName);
             }
+            //关闭流
             is.close();
+            //关闭FTP连接
             FtpUtil.closeConnect();
         } catch (IOException e) {
             e.printStackTrace();
