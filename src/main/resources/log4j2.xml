@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Configuration status="WARN" strict="true" xmlns="http://logging.apache.org/log4j/2.0/config">
     <Properties>
-        <Property name="fileName">log/${date:yyyy-MM-dd}.log</Property>
+        <Property name="fileName">log/${date:yyyy-MM}.log</Property>
     </Properties>
 
     <Appenders>
