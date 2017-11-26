@@ -25,7 +25,6 @@ public class Detection {
     @Test
     public void MD5Test() {
         PayParams payParams = new PayParams();
-
         Map<String, String> params = new HashMap();
         params.put("appid", "123");
         params.put("mch_id", "123");
@@ -37,12 +36,17 @@ public class Detection {
         params.put("notify_url", "123");
         params.put("trade_type", "123");
         params.put("openid", "123");
-        //除去数组中的空值和前后空格
         params = PayUtil.paramFilter(params);
-        //对参数按照key=value的格式，并按照参数名ASCII字典序排序
-        String parstr = PayUtil.createLinkString(params);
-        //MD5运算生成签名，这里是第一次签名，用于调用统一下单接口
-        String mysign = PayUtil.sign(parstr, "123key").toUpperCase();
-        System.out.println(parstr);
+        String xml = PayUtil.paramsToXML(params);
+        Map<String, String> map = PayUtil.xmlToParams(xml);
+        for (String a : map.keySet()) {
+            System.out.println(a);
+            System.out.println(map.get(a));
+        }
+    }
+
+    @Test
+    public void da() {
+
     }
 }

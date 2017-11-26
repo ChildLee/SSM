@@ -52,6 +52,14 @@ public class RandomStringGenerator {
         return df.format(new Date());
     }
 
+    /**
+     * 获取时间戳,精确到秒
+     *
+     * @return 时间戳字符串
+     */
+    public static String getTimeStamp() {
+        return String.valueOf(System.currentTimeMillis() / 1000);
+    }
 
     /**
      * 获取当前时间往后多少分钟的时间

@@ -1,6 +1,7 @@
 package cn.util.pay;
 
 import org.dom4j.Document;
+import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.springframework.util.DigestUtils;
@@ -86,11 +87,46 @@ public class PayUtil {
         Document document = DocumentHelper.createDocument();
         Element root = document.addElement("xml");
         for (String key : params.keySet()) {
-            root.addElement(key).setText(params.get(key));
+            root.addElement(key).addCDATA(params.get(key));
         }
         return document.getRootElement().asXML();
     }
 
+    /**
+     * 将xml格式转换成参数集合
+     *
+     * @param xml 需要解析的xml数据
+     * @return 参数集合
+     */
+    public static Map<String, String> xmlToParams(String xml) {
+        if (null == xml) {
+            return null;
+        }
+        Map<String, String> result = new HashMap();
+        try {
+            //读取XML文本内容获取Document对象
+            Document document = DocumentHelper.parseText(xml);
+            //获取根节点元素对象
+            Element root = document.getRootElement();
+            //获取当前节点的所有属性节点
+            Iterator<Element> iterator = root.elementIterator();
+            while (iterator.hasNext()) {
+                Element element = iterator.next();
+                result.put(element.getName(), element.getStringValue());
+            }
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * 访问微信支付接口发送数据并接受结果
+     *
+     * @param requestUrl 微信支付接口
+     * @param xml        支付数据
+     * @return 微信返回的数据
+     */
     public static String httpRequest(String requestUrl, String xml) {
         if (null == xml) {
             return null;
