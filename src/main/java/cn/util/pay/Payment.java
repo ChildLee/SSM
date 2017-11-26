@@ -46,12 +46,13 @@ public class Payment {
         //payParams.setLimit_pay("");//指定支付方式
         //payParams.setOpenid("");//用户标识
 
+        //所有参数全部放到集合里面去,空值下面会处理
         Map<String, String> params = new HashMap();
         params.put("appid", payParams.getAppid());
         params.put("mch_id", payParams.getMch_id());
         params.put("device_info", payParams.getDevice_info());
         params.put("nonce_str", payParams.getNonce_str());
-        params.put("sign", payParams.getSign());
+        //params.put("sign", payParams.getSign());
         params.put("sign_type", payParams.getSign_type());
         params.put("body", payParams.getBody());
         params.put("detail", payParams.getDetail());
@@ -67,9 +68,9 @@ public class Payment {
         params.put("trade_type", payParams.getTrade_type());
         params.put("limit_pay", payParams.getLimit_pay());
         params.put("openid", payParams.getOpenid());
-
-        //除去数组中的空值和前后空格
+        //除去集合中的空值和前后空格
         params = PayUtil.paramFilter(params);
+
         //对参数按照key=value的格式，并按照参数名ASCII字典序排序
         String parstr = PayUtil.createLinkString(params);
         //MD5运算生成签名，这里是第一次签名，用于调用统一下单接口
@@ -85,6 +86,7 @@ public class Payment {
         //返回状态码,成功为"SUCCESS"
         String return_code = mapResult.get("return_code");
         //返回给小程序端需要的参数
+
         Map<String, String> response = new HashMap();
         //判断是否成功
         if (return_code == "SUCCESS" || "SUCCESS".equals(return_code)) {
@@ -95,13 +97,14 @@ public class Payment {
             response.put("nonceStr", payParams.getNonce_str());
             response.put("package", "prepay_id=" + prepay_id);
             response.put("timeStamp", RandomStringGenerator.getTimeStamp());
-            response.put("signType", "MD5");
+            response.put("signType", payParams.getSign_type());
             //转换成键值对字符串进行签名
             String strSign = PayUtil.createLinkString(response);
             String paySign = PayUtil.sign(strSign, key).toUpperCase();
             //将签名添加到返回的集合
             response.put("paySign", paySign);
         }
+
         return response;
     }
 }
