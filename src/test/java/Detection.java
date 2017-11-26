@@ -1,4 +1,5 @@
 import cn.aop.Sa;
+import cn.util.RandomStringGenerator;
 import cn.util.pay.PayParams;
 import cn.util.pay.PayUtil;
 import org.junit.Test;
@@ -47,6 +48,6 @@ public class Detection {
 
     @Test
     public void da() {
-
+        System.out.println(RandomStringGenerator.getRandomNumber(5));
     }
 }

@@ -23,37 +23,51 @@ public class Payment {
      * 微信支付入口
      */
     public static Map<String, String> pay(PayParams payParams) {
+        //注释的参数为前端传入,部分参数可以不填
         payParams.setAppid(appid);
         payParams.setMch_id(mch_id);
-        payParams.setDevice_info("");
-        payParams.setNonce_str(RandomStringGenerator.getRandomString(30).toUpperCase());
-        payParams.setSign("");
-        payParams.setBody("");
-        payParams.setDetail("");
-        payParams.setAttach("");
-        payParams.setOut_trade_no("");
-        payParams.setFee_type("");
-        payParams.setSpbill_create_ip("");
-        payParams.setTime_start("");
-        payParams.setTime_expire("");
-        payParams.setGoods_tag("");
-        payParams.setTotal_fee("");
-        payParams.setNotify_url("");
-        payParams.setTrade_type("");
-        payParams.setLimit_pay("");
-        payParams.setOpenid("");
+        //payParams.setDevice_info("");//终端设备号(门店号或收银设备ID)
+        payParams.setNonce_str(RandomStringGenerator.getRandomString(32).toUpperCase());//随机字符串
+        //payParams.setSign("");//签名
+        payParams.setSign_type("MD5");//签名类型
+        //payParams.setBody("");//商品描述
+        //payParams.setDetail("");//商品详情
+        //payParams.setAttach("");//附加数据
+        payParams.setOut_trade_no(RandomStringGenerator.getNoFormatTime()
+                + RandomStringGenerator.getRandomNumber(18));//商户订单号
+        payParams.setFee_type("CNY");//货币类型
+        //payParams.setTotal_fee("");//总金额
+        //payParams.setSpbill_create_ip("");//终端IP
+        payParams.setTime_start(RandomStringGenerator.getNoFormatTime());//交易起始时间
+        payParams.setTime_expire(RandomStringGenerator.getNoFormatTimeOut(1440));//交易结束时间
+        //payParams.setGoods_tag("");//商品标记
+        //payParams.setNotify_url("");//通知地址
+        payParams.setTrade_type("JSAPI");//交易类型
+        //payParams.setLimit_pay("");//指定支付方式
+        //payParams.setOpenid("");//用户标识
 
         Map<String, String> params = new HashMap();
         params.put("appid", payParams.getAppid());
         params.put("mch_id", payParams.getMch_id());
+        params.put("device_info", payParams.getDevice_info());
         params.put("nonce_str", payParams.getNonce_str());
+        params.put("sign", payParams.getSign());
+        params.put("sign_type", payParams.getSign_type());
         params.put("body", payParams.getBody());
+        params.put("detail", payParams.getDetail());
+        params.put("attach", payParams.getAttach());
         params.put("out_trade_no", payParams.getOut_trade_no());
+        params.put("fee_type", payParams.getFee_type());
         params.put("total_fee", payParams.getTotal_fee());
         params.put("spbill_create_ip", payParams.getSpbill_create_ip());
+        params.put("time_start", payParams.getTime_start());
+        params.put("time_expire", payParams.getTime_expire());
+        params.put("goods_tag", payParams.getGoods_tag());
         params.put("notify_url", payParams.getNotify_url());
         params.put("trade_type", payParams.getTrade_type());
+        params.put("limit_pay", payParams.getLimit_pay());
         params.put("openid", payParams.getOpenid());
+
         //除去数组中的空值和前后空格
         params = PayUtil.paramFilter(params);
         //对参数按照key=value的格式，并按照参数名ASCII字典序排序
