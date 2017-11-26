@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
 public class FtpUtil {
     //读取配置文件
     private static final ResourceBundle resourceBundle = ResourceBundle.getBundle("ftp");
-    //读取配置信息
+    //读取配置文件参数
     private static final String url = resourceBundle.getString("ftp.url");
     private static final int port = Integer.parseInt(resourceBundle.getString("ftp.port"));
     private static final String username = resourceBundle.getString("ftp.username");

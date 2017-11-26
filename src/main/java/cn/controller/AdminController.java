@@ -4,6 +4,8 @@ package cn.controller;
 import cn.entity.Admin;
 import cn.service.AdminService;
 import cn.util.FtpUtil;
+import cn.util.ImageUtil;
+import cn.util.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,10 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-
-import static cn.util.ImageUtil.ImgCompression;
-import static cn.util.RandomStringGenerator.getNoFormatTime;
-import static cn.util.RandomStringGenerator.getRandomNumber;
 
 @Controller
 public class AdminController {
@@ -45,11 +43,12 @@ public class AdminController {
                 //获取文件后缀
                 String suffix = fileName.substring(fileName.lastIndexOf("."));
                 //随机字符串生成,当前时间+随机字符串=文件名
-                fileName = getNoFormatTime() + getRandomNumber(8) + suffix;
+                fileName = RandomStringGenerator.getNoFormatTime() +
+                        RandomStringGenerator.getRandomNumber(8) + suffix;
                 //将文件转成流
                 is = files[i].getInputStream();
                 //图片压缩
-                is = ImgCompression(is, suffix.substring(1));
+                is = ImageUtil.ImgCompression(is, suffix.substring(1));
                 //上传图片
                 FtpUtil.ftpUpload(is, fileName);
             }

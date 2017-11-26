@@ -1,5 +1,8 @@
 package cn.util.pay;
 
+/**
+ * 微信支付实体类
+ */
 public class PayParams {
     private String appid;//小程序ID
     private String mch_id;//商户号

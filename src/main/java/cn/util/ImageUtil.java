@@ -25,7 +25,7 @@ public class ImageUtil {
         InputStream inputStream = null;
         try {
             bufferedImage = ImageIO.read(is);
-            //等比压缩倍数
+            //等比压缩倍数,1为正常,小于1为缩放
             double scale = 1;
             //获取图片宽度
             int width = bufferedImage.getWidth();
