@@ -42,13 +42,26 @@ public class RandomStringGenerator {
     }
 
     /**
-     * 获取无格式的系统时间
+     * 获取无分隔的系统时间
      *
-     * @return 无格式的系统时间字符串
+     * @return 无分隔格式的系统时间字符串
      */
     public static String getNoFormatTime() {
         //获取系统当前时间
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
         return df.format(new Date());
+    }
+
+
+    /**
+     * 获取当前时间往后多少分钟的时间
+     *
+     * @param minute 分钟
+     * @return 当前时间往后延迟的时间
+     */
+    public static String getNoFormatTimeOut(int minute) {
+        //获取系统当前时间
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+        return df.format(new Date().getTime() + (minute * 60 * 1000));
     }
 }

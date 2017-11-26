@@ -14,9 +14,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static cn.util.ImageUtil.ImgCompression;
 import static cn.util.RandomStringGenerator.getNoFormatTime;
 import static cn.util.RandomStringGenerator.getRandomNumber;
-import static cn.util.Util.ImgCompression;
 
 @Controller
 public class AdminController {

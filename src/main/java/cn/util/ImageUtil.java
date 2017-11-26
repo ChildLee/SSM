@@ -11,7 +11,7 @@ import java.io.InputStream;
 /**
  * 工具类
  */
-public class Util {
+public class ImageUtil {
 
     /**
      * 将上传的图片进行压缩后返回图片流

@@ -1,4 +1,5 @@
 import cn.aop.Sa;
+import cn.util.RandomStringGenerator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,4 +18,9 @@ public class Detection {
         sa.wo();
     }
 
+    @Test
+    public void MD5Test() {
+        String a = RandomStringGenerator.getNoFormatTimeOut(60);
+        System.out.println(a);
+    }
 }
