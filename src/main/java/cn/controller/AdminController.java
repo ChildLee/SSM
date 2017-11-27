@@ -4,8 +4,6 @@ package cn.controller;
 import cn.entity.Admin;
 import cn.service.AdminService;
 import cn.util.FtpUtil;
-import cn.util.ImageUtil;
-import cn.util.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.InputStream;
 
 @Controller
 public class AdminController {
@@ -24,40 +20,13 @@ public class AdminController {
 
     @ResponseBody
     @RequestMapping("/admin")
-    public String getAdminAll(String sa) {
-        Admin ad = adminService.getAdminAll();
-        return ad.getUser();
+    public Admin getAdminAll(String sa) {
+        return adminService.getAdminAll();
     }
 
     @RequestMapping("/fileUpload")
-    public void getfileUpload(@RequestParam("files") MultipartFile[] files) {
-        try {
-            //连接FTP
-            if (!FtpUtil.ftpConnect()) return;
-            InputStream is = null;
-            for (int i = 0; i < files.length; i++) {
-                //获取上传的文件名
-                String fileName = files[i].getOriginalFilename();
-                //判断上传的文件是否为空
-                if (fileName == null || "".equals(fileName)) continue;
-                //获取文件后缀
-                String suffix = fileName.substring(fileName.lastIndexOf("."));
-                //随机字符串生成,当前时间+随机字符串=文件名
-                fileName = RandomStringGenerator.getNoFormatTime() +
-                        RandomStringGenerator.getRandomNumber(8) + suffix;
-                //将文件转成流
-                is = files[i].getInputStream();
-                //图片压缩
-                is = ImageUtil.ImgCompression(is, suffix.substring(1));
-                //上传图片
-                FtpUtil.ftpUpload(is, fileName);
-            }
-            //关闭流
-            is.close();
-            //关闭FTP连接
-            FtpUtil.closeConnect();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public Boolean getfileUpload(@RequestParam("files") MultipartFile[] files) {
+        if (null == files) return false;
+        return FtpUtil.getfileUpload(files);
     }
 }

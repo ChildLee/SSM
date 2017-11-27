@@ -4,7 +4,13 @@ import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ResourceBundle;
@@ -24,11 +30,49 @@ public class FtpUtil {
     private static Logger logger = LogManager.getLogger("log");
 
     /**
+     * ftp上传入口
+     *
+     * @param files 前端input传入的图片集合
+     */
+    public static Boolean getfileUpload(MultipartFile[] files) {
+        Boolean result = null;
+        try {
+            //连接FTP
+            if (!FtpUtil.ftpConnect()) return false;
+            InputStream is = null;
+            for (int i = 0; i < files.length; i++) {
+                //获取上传的文件名
+                String fileName = files[i].getOriginalFilename();
+                //判断上传的文件是否为空
+                if (fileName == null || "".equals(fileName)) continue;
+                //获取文件后缀
+                String suffix = fileName.substring(fileName.lastIndexOf("."));
+                //随机字符串生成,当前时间+随机字符串=文件名
+                fileName = RandomStringGenerator.getNoFormatTime() +
+                        RandomStringGenerator.getRandomNumber(8) + suffix;
+                //将文件转成流
+                is = files[i].getInputStream();
+                //图片压缩
+                is = FtpUtil.ImgCompression(is, suffix.substring(1));
+                //上传图片
+                result = FtpUtil.ftpUpload(is, fileName);
+            }
+            //关闭流
+            is.close();
+            //关闭FTP连接
+            FtpUtil.closeConnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
      * 建立ftp连接
      *
      * @return 是否连接成功
      */
-    public static boolean ftpConnect() {
+    private static boolean ftpConnect() {
         //实例化一个ftp客户端
         ftpClient = new FTPClient();
         try {
@@ -101,7 +145,7 @@ public class FtpUtil {
     /**
      * 退出并关闭FTP连接
      */
-    public static void closeConnect() {
+    private static void closeConnect() {
         try {
             //判断是否还连接
             if (ftpClient != null && ftpClient.isConnected()) {
@@ -122,7 +166,7 @@ public class FtpUtil {
      * @param is       上传的文件
      * @return 是否上传成功
      */
-    public static boolean ftpUpload(String fileName, InputStream is) {
+    private static boolean ftpUpload(String fileName, InputStream is) {
         return ftpUpload(is, fileName);
     }
 
@@ -133,7 +177,7 @@ public class FtpUtil {
      * @param fileName 上传的文件名
      * @return 是否上传成功
      */
-    public static boolean ftpUpload(InputStream is, String fileName) {
+    private static boolean ftpUpload(InputStream is, String fileName) {
         Boolean success = false;
         try {
             //上传文件
@@ -150,7 +194,7 @@ public class FtpUtil {
      * @param fileName 删除的文件名
      * @return 是否删除成功
      */
-    public static boolean ftpDelete(String fileName) {
+    private static boolean ftpDelete(String fileName) {
         if (fileName == null || "".equals(fileName)) {
             return false;
         }
@@ -164,4 +208,44 @@ public class FtpUtil {
         return success;
     }
 
+    /**
+     * 将上传的图片进行压缩后返回图片流
+     *
+     * @param is     图片流
+     * @param suffix 图片后缀
+     * @return 图片流
+     */
+    private static InputStream ImgCompression(InputStream is, String suffix) {
+        BufferedImage bufferedImage = null;
+        InputStream inputStream = null;
+        try {
+            bufferedImage = ImageIO.read(is);
+            //等比压缩倍数,1为正常,小于1为缩放
+            double scale = 1;
+            //获取图片宽度
+            int width = bufferedImage.getWidth();
+            //获取图片高度
+            int height = bufferedImage.getHeight();
+            //将宽度等比缩放
+            width = (int) (width * scale);
+            //将高度等比缩放
+            height = (int) (height * scale);
+
+            //压缩处理
+            Image image = bufferedImage.getScaledInstance(width, height,
+                    Image.SCALE_SMOOTH);
+            BufferedImage outputImage = new BufferedImage(width, height,
+                    BufferedImage.TYPE_INT_RGB);
+            Graphics graphics = outputImage.getGraphics();
+            graphics.drawImage(image, 0, 0, null);
+            graphics.dispose();
+            //将BufferedImage转换成inputStream流
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            ImageIO.write(outputImage, suffix, os);
+            inputStream = new ByteArrayInputStream(os.toByteArray());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return inputStream;
+    }
 }

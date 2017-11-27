@@ -2,6 +2,11 @@ package cn.util.pay;
 
 import cn.util.RandomStringGenerator;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -16,6 +21,7 @@ public class Payment {
     private static final ResourceBundle resourceBundle = ResourceBundle.getBundle("wxPay");
     //读取配置文件参数
     private static final String appid = resourceBundle.getString("appid");
+    private static final String appSecret = resourceBundle.getString("appSecret");
     private static final String mch_id = resourceBundle.getString("mch_id");
     private static final String key = resourceBundle.getString("key");
 
@@ -104,7 +110,41 @@ public class Payment {
             //将签名添加到返回的集合
             response.put("paySign", paySign);
         }
-
         return response;
+    }
+
+    /**
+     * 获取OpenId
+     *
+     * @param code 小程序login获取的随机码
+     * @return openid, session_key, unionid
+     */
+    public static String getOpenId(String code) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("appid", appid.toString());
+        params.put("secret", appSecret.toString());
+        params.put("js_code", code.toString());
+        params.put("grant_type", "authorization_code");
+        String linkString = PayUtil.createLinkString(params);
+        StringBuffer result = null;
+        try {
+            URL url = new URL("https://api.weixin.qq.com/sns/jscode2session?" + linkString);
+            URLConnection conn = url.openConnection();
+            //读取返回的字节
+            InputStream is = conn.getInputStream();
+            //字节转字符
+            InputStreamReader isr = new InputStreamReader(is, "utf-8");
+            //字符转文本
+            BufferedReader br = new BufferedReader(isr);
+            //文本存起来并返回
+            result = new StringBuffer();
+            String line = null;
+            while ((line = br.readLine()) != null) {
+                result.append(line);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result.toString();
     }
 }

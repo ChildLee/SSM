@@ -43,7 +43,7 @@ public class PayUtil {
      * @return 拼接完返回字符串
      */
     public static String createLinkString(Map<String, String> params) {
-        List<String> keys = new ArrayList(params.keySet());
+        List<String> keys = new ArrayList<String>(params.keySet());
         //微信要求按照参数名ASCII字典序排序
         Collections.sort(keys);
         String parstr = "";
