@@ -5,6 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AdminMapper {
-    public Admin getAdminAll();
-
+    Admin getAdminAll();
 }

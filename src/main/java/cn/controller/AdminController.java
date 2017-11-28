@@ -17,7 +17,7 @@ public class AdminController {
 
     @ResponseBody
     @RequestMapping("/admin")
-    public Admin getAdminAll(String sa) {
+    public Admin getAdminAll() {
         return adminService.getAdminAll();
     }
 

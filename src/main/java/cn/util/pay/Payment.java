@@ -120,7 +120,7 @@ public class Payment {
      * @return openid, session_key, unionid
      */
     public static String getOpenId(String code) {
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("appid", appid.toString());
         params.put("secret", appSecret.toString());
         params.put("js_code", code.toString());

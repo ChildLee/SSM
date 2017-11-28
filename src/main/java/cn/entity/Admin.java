@@ -2,8 +2,8 @@ package cn.entity;
 
 public class Admin {
     private int id;
-    private String user;
-    private String pwd;
+    private String account;
+    private String password;
 
     public int getId() {
         return id;
@@ -13,19 +13,28 @@ public class Admin {
         this.id = id;
     }
 
-    public String getUser() {
-        return user;
+    public String getAccount() {
+        return account;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setAccount(String account) {
+        this.account = account;
     }
 
-    public String getPwd() {
-        return pwd;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "Admin{" +
+                "id=" + id +
+                ", account='" + account + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.mapper.UserMapper">
+    <select id="getUserInfo" resultType="User">
+        SELECT * FROM t_user WHERE openid=#{openid}
+    </select>
+
+    <insert id="setUserInfo">
+        INSERT INTO t_user (name,image,openid) VALUE (#{name},#{image},#{openid})
+    </insert>
+</mapper>

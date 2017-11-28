@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class PayAction {
 
     @ResponseBody
-    @RequestMapping(value = "/getOpenId", method = RequestMethod.GET)
+    @RequestMapping(value = "/getOpenId", method = RequestMethod.POST)
     public String getOpenId(String code) {
         if (null == code || "".equals(code)) return null;
         return Payment.getOpenId(code);

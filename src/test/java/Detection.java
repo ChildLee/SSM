@@ -1,4 +1,5 @@
 import cn.aop.Sa;
+import cn.mapper.UserMapper;
 import cn.util.pay.PayParams;
 import cn.util.pay.PayUtil;
 import org.junit.Test;
@@ -16,6 +17,15 @@ public class Detection {
 
     @Autowired
     private Sa sa;
+
+    @Autowired
+    private UserMapper userService;
+
+    @Test
+    public void mb() {
+        String a = "o8Mzw0KOfiA7mO2KB93FLlPnvnbM";
+        System.out.println(a.length());
+    }
 
     @Test
     public void ftpTest() throws Exception {
