@@ -13,6 +13,6 @@
     </select>
 
     <insert id="setCategory">
-        SELECT * FROM t_category WHERE LEVEL=#{LEVEL}
+        INSERT INTO t_category(name,image,level) VALUE (#{name},#{image},#{level})
     </insert>
 </mapper>

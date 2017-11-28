@@ -1,16 +1,16 @@
 package cn.entity;
 
 public class Category {
-    private int id;
+    private Integer id;
     private String name;
     private String image;
-    private int level;
+    private Integer level;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -30,11 +30,11 @@ public class Category {
         this.image = image;
     }
 
-    public int getLevel() {
+    public Integer getLevel() {
         return level;
     }
 
-    public void setLevel(int level) {
+    public void setLevel(Integer level) {
         this.level = level;
     }
 

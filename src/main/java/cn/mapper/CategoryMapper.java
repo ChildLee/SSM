@@ -3,18 +3,20 @@ package cn.mapper;
 import cn.entity.Category;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface CategoryMapper {
 
     /**
      * @return 所有分类
      */
-    Category getCategory();
+    List<Category> getCategory();
 
     /**
      * @return 所有对应等级分类
      */
-    Category getCategoryLevel(String level);
+    List<Category> getCategoryLevel(int level);
 
     /**
      * @param category 需要添加的分类信息

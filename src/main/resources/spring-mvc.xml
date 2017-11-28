@@ -7,7 +7,7 @@
     <!--开启注解-->
     <mvc:annotation-driven/>
     <!--自动扫描注解包-->
-    <context:component-scan base-package="cn.controller"/>
+    <context:component-scan base-package="cn.action"/>
     <!--允许静态文件访问-->
     <mvc:default-servlet-handler/>
 

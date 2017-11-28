@@ -1,16 +1,25 @@
 package cn.service;
 
 import cn.entity.Category;
-import cn.mapper.CategoryMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
-public class CategoryService {
-    @Autowired
-    private CategoryMapper categoryMapper;
+import java.util.List;
 
-    public Category getCategory() {
-        return null;
-    }
+@Service
+public interface CategoryService {
+    /**
+     * @return 所有分类
+     */
+    List<Category> getCategory();
+
+    /**
+     * @return 所有对应等级分类
+     */
+    List<Category> getCategoryLevel(int level);
+
+    /**
+     * @param category 需要添加的分类信息
+     * @return 是否添加成功
+     */
+    int setCategory(Category category);
 }

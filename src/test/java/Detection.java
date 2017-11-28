@@ -1,5 +1,6 @@
 import cn.aop.Sa;
-import cn.mapper.UserMapper;
+import cn.entity.Category;
+import cn.mapper.CategoryMapper;
 import cn.util.pay.PayParams;
 import cn.util.pay.PayUtil;
 import org.junit.Test;
@@ -9,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -19,12 +21,14 @@ public class Detection {
     private Sa sa;
 
     @Autowired
-    private UserMapper userService;
+    private CategoryMapper categoryMapper;
 
     @Test
     public void mb() {
-        String a = "o8Mzw0KOfiA7mO2KB93FLlPnvnbM";
-        System.out.println(a.length());
+//        String a = "o8Mzw0KOfiA7mO2KB93FLlPnvnbM";
+//        System.out.println(a.length());
+        List<Category> list = categoryMapper.getCategoryLevel(0);
+        System.out.println(list);
     }
 
     @Test

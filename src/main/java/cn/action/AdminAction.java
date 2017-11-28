@@ -1,4 +1,4 @@
-package cn.controller;
+package cn.action;
 
 
 import cn.entity.Admin;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
-public class AdminController {
+public class AdminAction {
 
     @Autowired
     private AdminService adminService;

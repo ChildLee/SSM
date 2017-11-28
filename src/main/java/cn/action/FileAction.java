@@ -1,4 +1,4 @@
-package cn.controller;
+package cn.action;
 
 import cn.util.FtpUtil;
 import org.springframework.stereotype.Controller;

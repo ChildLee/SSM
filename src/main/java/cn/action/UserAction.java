@@ -1,4 +1,4 @@
-package cn.controller;
+package cn.action;
 
 import cn.entity.User;
 import cn.service.UserService;

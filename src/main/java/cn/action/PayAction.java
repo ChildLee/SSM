@@ -1,4 +1,4 @@
-package cn.controller;
+package cn.action;
 
 import cn.util.pay.Payment;
 import org.springframework.stereotype.Controller;
