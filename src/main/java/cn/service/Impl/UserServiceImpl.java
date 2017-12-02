@@ -1,7 +1,7 @@
 package cn.service.Impl;
 
-import cn.dao.UserDao;
 import cn.entity.User;
+import cn.mapper.UserMapper;
 import cn.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,20 +10,20 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserDao userDao;
+    private UserMapper userMapper;
 
     @Override
     public User getUserInfo(String openId) {
-        return userDao.getUserInfo(openId);
+        return userMapper.getUserInfo(openId);
     }
 
     @Override
     public int setUserInfo(User user) {
-        User userInfo = userDao.getUserInfo(user.getOpenid());
+        User userInfo = userMapper.getUserInfo(user.getOpenid());
         if (null == userInfo) {
-            int result = userDao.setUserInfo(user);
+            int result = userMapper.setUserInfo(user);
             if (result > 0) {
-                userInfo = userDao.getUserInfo(user.getOpenid());
+                userInfo = userMapper.getUserInfo(user.getOpenid());
             }
         }
         return userInfo.getId();

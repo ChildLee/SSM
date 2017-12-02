@@ -1,9 +1,9 @@
-package cn.dao;
+package cn.mapper;
 
 import cn.entity.Admin;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AdminDao {
+public interface AdminMapper {
     Admin getAdminAll();
 }

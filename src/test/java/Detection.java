@@ -1,6 +1,6 @@
 import cn.aop.Sa;
-import cn.dao.CategoryDao;
 import cn.entity.Category;
+import cn.mapper.CategoryMapper;
 import cn.util.pay.PayParams;
 import cn.util.pay.PayUtil;
 import org.junit.Test;
@@ -21,13 +21,13 @@ public class Detection {
     private Sa sa;
 
     @Autowired
-    private CategoryDao categoryDao;
+    private CategoryMapper categoryMapper;
 
     @Test
     public void mb() {
 //        String a = "o8Mzw0KOfiA7mO2KB93FLlPnvnbM";
 //        System.out.println(a.length());
-        List<Category> list = categoryDao.getCategoryLevel(0);
+        List<Category> list = categoryMapper.getCategoryLevel(0);
         System.out.println(list);
     }
 

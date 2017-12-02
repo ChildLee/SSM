@@ -1,7 +1,7 @@
 package cn.service.Impl;
 
-import cn.dao.CategoryDao;
 import cn.entity.Category;
+import cn.mapper.CategoryMapper;
 import cn.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,20 +11,20 @@ import java.util.List;
 @Service
 public class CategoryServiceImpl implements CategoryService {
     @Autowired
-    private CategoryDao categoryDao;
+    private CategoryMapper categoryMapper;
 
     @Override
     public List<Category> getCategory() {
-        return categoryDao.getCategory();
+        return categoryMapper.getCategory();
     }
 
     @Override
     public List<Category> getCategoryLevel(int level) {
-        return categoryDao.getCategoryLevel(level);
+        return categoryMapper.getCategoryLevel(level);
     }
 
     @Override
     public int setCategory(Category category) {
-        return categoryDao.setCategory(category);
+        return categoryMapper.setCategory(category);
     }
 }

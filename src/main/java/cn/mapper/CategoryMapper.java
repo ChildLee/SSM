@@ -1,4 +1,4 @@
-package cn.dao;
+package cn.mapper;
 
 import cn.entity.Category;
 import org.springframework.stereotype.Repository;
@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CategoryDao {
+public interface CategoryMapper {
 
     /**
      * @return 所有分类
