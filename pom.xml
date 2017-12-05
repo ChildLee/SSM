@@ -41,7 +41,7 @@
 
     <!--公共变量-->
     <properties>
-        <spring.version>5.0.1.RELEASE</spring.version>
+        <spring.version>5.0.2.RELEASE</spring.version>
     </properties>
 
     <!--导入jar包-->
@@ -79,7 +79,8 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>6.0.6</version>
+            <version>8.0.8-dmr</version>
+            <scope>runtime</scope>
         </dependency>
         <!--junit测试-->
         <dependency>
@@ -92,13 +93,13 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
-            <version>1.1.5</version>
+            <version>1.1.6</version>
         </dependency>
         <!--json转换工具-->
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.8.2</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.2</version>
         </dependency>
         <!-- jstl -->
         <dependency>

@@ -4,6 +4,7 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
+
     <!--Spring核心监听器  -->
     <!--在服务器启动时加载Spring容器，且只会加载一次  -->
     <context-param>
@@ -26,6 +27,16 @@
     <servlet-mapping>
         <servlet-name>spring-mvc</servlet-name>
         <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <!--阿里云连接池统计-->
+    <servlet>
+        <servlet-name>DruidStatView</servlet-name>
+        <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DruidStatView</servlet-name>
+        <url-pattern>/druid/*</url-pattern>
     </servlet-mapping>
 
     <!--配置由Spring 提供的针对中文乱码的编码过滤器 -->
