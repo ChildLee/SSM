@@ -30,14 +30,39 @@
     </servlet-mapping>
 
     <!--阿里云连接池统计-->
+    <!--DruidStatView。如果没有servlet，无法通过web页面查看监控数据。-->
     <servlet>
-        <servlet-name>Druid</servlet-name>
+        <servlet-name>DruidStatView</servlet-name>
         <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+        <init-param>
+            <!-- 用户名 -->
+            <param-name>loginUsername</param-name>
+            <param-value>sa</param-value>
+        </init-param>
+        <init-param>
+            <!-- 密码 -->
+            <param-name>loginPassword</param-name>
+            <param-value>sa</param-value>
+        </init-param>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Druid</servlet-name>
+        <servlet-name>DruidStatView</servlet-name>
         <url-pattern>/druid/*</url-pattern>
     </servlet-mapping>
+
+    <!--DruidWebStatFilter。如果没有配置filter信息。session监控，web监控等不可用。没有配置-->
+    <filter>
+        <filter-name>DruidWebStatFilter</filter-name>
+        <filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
+        <init-param>
+            <param-name>exclusions</param-name>
+            <param-value>/static/*,*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>DruidWebStatFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
     <!--配置由Spring 提供的针对中文乱码的编码过滤器 -->
     <!-- 编码过滤器 -->

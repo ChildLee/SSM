@@ -12,31 +12,31 @@ public class LoggerAspect {
     private static Logger logger = LogManager.getLogger("log");
 
     @Pointcut("execution(* cn.aop.Sa.*(..))")
-    public void pointCut() {
+    public void point() {
     }
 
-    @Before("pointCut()")
+    @Before("point()")
     public void beforeLog() {
         logger.info("---------------执行前---------------");
     }
 
-    @AfterThrowing("pointCut()")
+    @AfterThrowing("point()")
     public void afterThrowingLog() {
         logger.error("报错后日志");
     }
 
-    @After("pointCut()")
+    @After("point()")
     public void afterLog() {
         logger.info("---------------执行后日志---------------");
     }
 
-    @AfterReturning("pointCut()")
+    @AfterReturning("point()")
     public void afterReturningLog() {
         logger.info("---------------执行成功后日志---------------");
     }
 
     //环绕切面不管前后总是先执行,先捕捉错误
-    @Around("pointCut()")
+    @Around("point()")
     public Object aroundLog(ProceedingJoinPoint joinpoint) {
         logger.info("---------------环绕前---------------");
         Object object = null;
