@@ -31,11 +31,11 @@
 
     <!--阿里云连接池统计-->
     <servlet>
-        <servlet-name>DruidStatView</servlet-name>
+        <servlet-name>Druid</servlet-name>
         <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>DruidStatView</servlet-name>
+        <servlet-name>Druid</servlet-name>
         <url-pattern>/druid/*</url-pattern>
     </servlet-mapping>
 
