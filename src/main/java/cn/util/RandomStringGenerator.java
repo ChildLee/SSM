@@ -18,7 +18,7 @@ public class RandomStringGenerator {
     public static String getRandomString(int length) {
         String str = "abcdefghijklmnopqrstuvwxyz0123456789";
         Random random = new Random();
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < length; i++) {
             sb.append(str.charAt(random.nextInt(str.length())));
         }
@@ -34,7 +34,7 @@ public class RandomStringGenerator {
     public static String getRandomNumber(int length) {
         String str = "0123456789";
         Random random = new Random();
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < length; i++) {
             sb.append(str.charAt(random.nextInt(str.length())));
         }

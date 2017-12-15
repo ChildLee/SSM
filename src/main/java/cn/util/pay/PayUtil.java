@@ -46,16 +46,16 @@ public class PayUtil {
         List<String> keys = new ArrayList<String>(params.keySet());
         //微信要求按照参数名ASCII字典序排序
         Collections.sort(keys);
-        String parstr = "";
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < keys.size(); i++) {
             String key = keys.get(i);
             String value = params.get(key);
             if (null == value || "".equals(value)) {
                 continue;
             }
-            parstr += "&" + key + "=" + value;
+            sb.append("&" + key + "=" + value);
         }
-        return parstr.substring(1);
+        return sb.substring(1);
     }
 
     /**
